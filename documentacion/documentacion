@@ -1,0 +1,178 @@
+==================================================================================
+Iniciar el proyecto
+    ==================================================================================
+    Instación de los paquetes para la app
+    ==================================================================================
+        npm init -y     /   npm init --yes
+            Para proyecto con mysql
+                npm i cross-env dotenv express express-handlebars express-session express-validator morgan multer passport passport-local bcryptjs timeago.js connect-flash mysql express-mysql-session
+            Para proyecto con mongodb agregar
+                mongoose
+
+        npm i nodemon -D
+
+        NOTAS:
+            express: Frameword de nodejs
+            express-handlebars: Motor de plantillas
+            morgan: Permite ver en la consola las peticiones http que van llegando al servidor
+            multer: Subir imagenes del formulario html al servidor
+            dotenv: Variables de entorno
+            cross-env: Varibles de entorno para determinar si la aplicación esta en producción o desarrollo
+            express-session: Administra las sessiones
+            bcryptjs: Encriptar las contraseñas en base de datos
+            passport: Es un módulo para autenticar y manejar el proceso de login de un usuario en nuestra aplicación
+            passport-local: Es un complemento de passport para autenticar a los usuarios con nuestra propia base de datos
+            timeago.js: Convierte los timestamps o fechas de la base de datos en un formato de rangos pasados
+            connect-flash: Los usaremos para mostrar mensajes de error y exito cuando el usuario realice una operación
+            express-validator: Validar datos en el lado del servidor
+
+            express-mysql-session: Módulo que permite guardar la session en base de datos
+            mysql: Módulo para conectarse a la base de datos, lo malo de esta es que no acepta promesas
+            
+
+            mongoose: Permite la conexión, modelar la base de datos mongodb
+
+            Otras:
+                cloudinary: Un modelo que permite subir las imagenes de nuestra app al servidor de cloudinary
+
+            Módulo para reiniciar el servidor automaticamente en dependencias de desarrollo
+                npm i nodemon -D
+    ==================================================================================
+    Crear las carpetas y archivos del proyecto
+    ==================================================================================
+        Carpetas
+            src
+            src/routes
+            src/models
+            src/views
+            src/views/layouts
+            src/views/partials
+            src/public/uploads // el multer lo crea 
+        
+        Files
+            src/index.js
+            src/app.js
+            src/database.js
+            src/views/layouts/main.hbs
+            src/views/image_form.hbs
+            src/views/images.hbs
+            src/routes/index.js
+    ==================================================================================
+    Configurar el script en package.json
+    ==================================================================================
+        "scripts": {
+            "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+            "prod": "cross-env NODE_ENV=production node src/index.js"
+        }
+
+        NOTA:
+            Para desarrollo
+                npm dev 
+            Para producción
+                npm prod 
+    ==================================================================================
+    Configurar app.js
+    ==================================================================================
+        const express = require('express');
+        const morgan = require('morgan');
+        const multer = require('multer');
+        const path = require('path'); 
+        const exphbs = require('express-handlebars');
+
+        // Initializations
+        const app = express();
+        
+        // Base de datos
+        require('./database');
+        
+        //Settings
+        app.set('port', process.env.PORT || 3000);
+        app.set('views', path.join(__dirname, 'views'));
+        
+        // Motor de plantillas
+        app.engine('.hbs', exphbs({
+            defaultLayout: 'main',
+            layoutsDir: path.join(app.get('views'),'layouts'),
+            partialsDir: path.join(app.get('views'),'partials'),
+            extname: '.hbs'
+        }));
+        app.set('view engine', '.hbs');
+
+        // Middleware
+        app.use(morgan('dev'));
+
+        // Para que el servidor pueda recibir datos json
+        app.use(express.json());
+
+        // Para que el servidor pueda recibir datos desde un formulario, pero no files pesados    
+        app.use(express.urlencoded({extended: false}));
+
+        // Configuración para la subida de imagenes
+        const storage = multer.diskStorage({
+            destination: path.join(__dirname, 'public/uploads'),
+            filename: (req, file, cb) => {
+                cb(null, new Date().getTime() + path.extname(file.originalname));
+            }
+        });
+        app.use(multer({storage}).single('image'));
+
+        // Routes
+        app.use(require('./routes'))
+
+        module.exports = app;
+
+    ==================================================================================
+    Configurar routes/index.js
+    ==================================================================================
+        const { Router } = require('express');
+        const router = Router();
+
+        router.get('/', (req,res) => {
+            res.send('Hello word.... desde nodejs')
+        });
+
+        module.exports = router;
+
+    ==================================================================================
+    Configurar index.js
+    ==================================================================================
+        if(process.env.NODE_ENV !== 'production'){
+            require('dotenv').config();
+        }
+
+        const app = require('./app');
+
+        app.listen(app.get('port'), () =>{
+            console.log('Server on port ', app.get('port'));
+            console.log('Envionment: ', process.env.NODE_ENV);
+        });
+
+    ==================================================================================
+    Posible error al levantar la app, puedes eliminar todas las instancias de nodejs   
+    ==================================================================================
+        Error: killall node
+
+    ==================================================================================
+    Configurar database.js
+    ==================================================================================
+        const mongoose = require('mongoose');
+
+        mongoose.connect(process.env.MONGODB_URI,{
+            useNewUrlParser: true,
+
+        });
+
+        .then(db => console.log(DB is Conect'));
+
+        .catch(err => console.error(err));
+
+    ==================================================================================
+    Configurar las variables de entorno file .env
+    ==================================================================================
+    MONGODB_URI=mongodb://localhost/prueba
+    PORT=4000
+
+    ==================================================================================
+    Configurar .gitignore
+    ==================================================================================
+    .env

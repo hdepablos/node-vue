@@ -1,0 +1,7 @@
+.pcoded-header .navbar-nav > li:first-child {
+  padding-left: 75px;
+}
+
+.pcoded-header .dropdown .dropdown-toggle {
+  padding-right: 33px;
+}
