@@ -176,3 +176,40 @@ Iniciar el proyecto
     Configurar .gitignore
     ==================================================================================
     .env
+    node_modules
+
+
+    ==================================================================================
+    Configurar webpack vue
+    ==================================================================================
+
+        Creamos las siguientes carpetas:
+            src/app
+
+        Creamos los siguientes files:
+            src/app/index.js
+            webpack.config.js
+            babelrc
+
+        Editamos:
+            webpack.config.js
+                module.exports = {
+                    entry: './src/app/index.js',
+                    output: {
+                        path: `${__dirname}/src/public`,
+                        filename: 'bundle.js' 
+                    }
+                }
+            
+            package.json, dentro del bloque scripts
+                "webpack": "webpack --mode development --watch"
+
+    ==================================================================================
+    Instamos como dependencias de desarrollo
+    ==================================================================================
+        npm i webpack -D
+        npm i webpack-cli -D
+        npm i babel-loader babel-preset-env babel-core vue-loader vue-template-compiler -D
+
+        npm install --save-dev babel-core babel-preset-env
+        npm install --save-dev @babel/core @babel/preset-env

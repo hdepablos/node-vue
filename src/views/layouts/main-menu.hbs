@@ -5,44 +5,46 @@
     {{> head-menu }}    
 </head>
 <body>
+    <div id="app">
 
-    {{> nav-menu }}
+        {{> nav-menu }}
 
-    <div class="pcoded-main-container">
-        <div class="pcoded-wrapper">
-            <div class="pcoded-content">
-                <div class="pcoded-inner-content">
-                    {{!-- Cambiar a un partials --}}
-                    <!-- [ breadcrumb ] start -->
-                    <div class="page-header">
-                        <div class="page-block">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <div class="page-header-title">
-                                        <h5 class="m-b-10">Horizontal Layout</h5>
+        <div id="app" class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+                <div class="pcoded-content">
+                    <div class="pcoded-inner-content">
+                        {{!-- Cambiar a un partials --}}
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h5 class="m-b-10">Horizontal Layout</h5>
+                                        </div>
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Page Layouts</a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Horizontal Layout</a></li>
+                                        </ul>
                                     </div>
-                                    <ul class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
-                                        <li class="breadcrumb-item"><a href="#!">Page Layouts</a></li>
-                                        <li class="breadcrumb-item"><a href="#!">Horizontal Layout</a></li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- [ breadcrumb ] end -->
-                    <div class="main-body animated slideInDown">
-                        <div class="page-wrapper">
-                            <!-- [ Main Content ] start -->
-                            {{{ body }}}
-                            <!-- [ Main Content ] end -->
+                        <!-- [ breadcrumb ] end -->
+                        <div class="main-body animated slideInDown">
+                            <div class="page-wrapper">
+                                <!-- [ Main Content ] start -->
+                                {{{ body }}}
+                                <!-- [ Main Content ] end -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
     {{> scripts-menu }}
 
 </body>
