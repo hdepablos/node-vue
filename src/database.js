@@ -23,6 +23,7 @@ poll.getConnection((err, connection) => {
         if (err.code === 'ECONNREFUSED'){
             console.error('La conexion de la base de datos ha sido rechazada');
         }
+        // console.log(err.message)
     }
     
     if(connection) connection.release;

@@ -10,4 +10,8 @@ router.get('/base/app', (req,res) => {
     res.render('base/base');
 });
 
+router.get('/base/app2', (req,res) => {
+    res.render('base/base2');
+});
+
 module.exports = router;
